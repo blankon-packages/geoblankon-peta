@@ -8,8 +8,8 @@
 <widget xmlns       = "http://www.w3.org/ns/widgets"
         id          = ""
         version     = "git"
-        height      = "490"
-        width       = "820">
+        height      = "480"
+        width       = "800">
  
   <name short="peta">
     Peta

@@ -1,3 +1,9 @@
+geoblankon-peta (0.3) tambora; urgency=medium
+
+  * Fix location png
+
+ -- Mijortsa <azis.astrojim@surabaya.di.blankon.in>  Sun, 03 May 2015 14:31:05 +0700
+
 geoblankon-peta (0.2) tambora; urgency=low
 
   * First upload to tambora
