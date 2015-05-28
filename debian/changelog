@@ -1,3 +1,17 @@
+geoblankon-peta (0.4) tambora; urgency=low
+
+  * New upstream changes:
+    - Change the map source from Cloudmade to OpenStreatMap
+    - Change geocoding provider from Cloudmade to Nominatim
+    - Upgrade JQuery and Leaflet
+    - Add Toastr
+    - Add Notifiaction
+  * Change geoblankon-peta.desktop:
+    - Name to Peta
+    - Category to Peta
+
+ -- Mahyuddin <yudi.al@gmail.com>  Thu, 28 May 2015 13:33:01 +0700
+
 geoblankon-peta (0.3) tambora; urgency=medium
 
   * Fix location png

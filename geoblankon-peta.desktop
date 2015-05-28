@@ -1,10 +1,10 @@
 [Desktop Entry]
-Name=GeoBlankOn
-Comment=Client viewer for GeoBlankOn
+Name=Peta
+Comment=Client viewer for BlankOn Peta
 Exec=maleo /usr/lib/geoblankon-peta
 Icon=geoblankon-peta
 Terminal=false
 Type=Application
-Categories=Network;
+Categories=Peta;
 StartupNotify=true
 

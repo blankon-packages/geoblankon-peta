@@ -2,20 +2,29 @@
 <html>
 <head>
 	<title>Peta</title>
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<link rel="stylesheet" href="lib/leaflet-0.7.2/leaflet.css" />
+
+	<link rel="stylesheet" href="lib/leaflet-0.7.3/leaflet.css" />
+
+	<script src="lib/jquery-2.1.3/jquery-2.1.3.min.js"></script>
+	
+	<script src="lib/leaflet-0.7.3/leaflet.js"></script>
+	
 	<link rel="stylesheet" href="lib/bootstrap-3.1.0/css/bootstrap.min.css">
+	
 	<link rel="stylesheet" href="lib/bootstrap-3.1.0/css/bootstrap-theme.min.css">
 
-	<script src="lib/jquery-2.1.0/jquery-2.1.0.min.js"></script>
-	<script src="lib/leaflet-0.7.2/leaflet.js"></script>
 	<script src="lib/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-<style>
+	
+	<script src="lib/toastr-2.1.1/toastr.min.js"></script>
+	
+	<link rel="stylesheet" href="lib/toastr-2.1.1/toastr.min.css">
+
+	<style>
 		body {
 			padding: 0;
 			margin: 0;
-			overflow-y:hidden;
-			overflow-x:hidden;
 		}
 		html, body, #map {
 			height: 100%;
@@ -27,21 +36,64 @@
 		left: 0px;
 		z-index: 1000;
 		width: 100%;
-		background-color: rgba(200,200,200,0.6);
-		border:1px solid #222;
+		background-color: rgba(200,200,200,0.8);
+	}
+	.perpanjang{
+		width: 400px !important;
 	}
 	.navbar-brand {
 		color: black;
 		font-weight: bold;
 		}
-
+		
 		#btn-about{
-			margin-top: 7px;
+			margin-top: 10px;
 			}
 	.alert {
 		margin-top: 52px;
 		margin-bottom: 0px;
 		}
+	.spinner {
+		width: 40px;
+		height: 40px;
+
+		position: relative;
+		margin: 100px auto;
+		}
+
+	.double-bounce1, .double-bounce2 {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		background-color: #333;
+		opacity: 0.6;
+		position: absolute;
+		top: 0;
+		left: 0;
+  
+		-webkit-animation: bounce 2.0s infinite ease-in-out;
+		animation: bounce 2.0s infinite ease-in-out;
+		}
+
+	.double-bounce2 {
+		-webkit-animation-delay: -1.0s;
+		animation-delay: -1.0s;
+		}
+
+	@-webkit-keyframes bounce {
+		0%, 100% { -webkit-transform: scale(0.0) }
+		50% { -webkit-transform: scale(1.0) }
+		}
+
+	@keyframes bounce {
+	0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+		} 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+		}
+	}
 	</style>
 	<script>
 	</script>
@@ -58,7 +110,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
      <form class="navbar-form navbar-left" role="search">    
       <div class="form-group">
-          <input type="text" id="search-text" class="form-control" placeholder="Lokasi yang ingin dicari...">
+          <input type="text" id="search-text" class="form-control perpanjang" placeholder="Lokasi yang ingin dicari...">
         </div>
         <button id="search-button" class="btn btn-default">Cari</button>
       </form>
@@ -70,8 +122,15 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-	<div class="alert alert-danger" id= "error-dialog" style= "display: none"><strong>Maaf, </strong>ada gangguan akses server</div>
 	<div id="map"></div>
+		<div id="map-spinner" style="display:none;z-index:9999;position:fixed;background:white;opacity:0.5;width:100%;height:100%;top:0">
+			<div style="top:30%;right:50%;opacity:1 !important;position:fixed">
+			<div class="spinner">
+			<div class="double-bounce1"></div>
+			<div class="double-bounce2"></div>
+		</div>
+		</div>
+	</div>
 	<div class="modal fade about-dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -81,8 +140,9 @@
       </div>
       <div class="modal-body">
         <p>
-			<span style= "color: red">geo.</span>Blankon<br/>
-			Author: <strong>Cahaya Maulidian</strong>
+			<span style= "color: red">geo.</span>BlankOn Client Application<br/>
+			Author	: <strong>Cahaya Maulidian</strong><br/>
+			Email	: <strong>cahaya.maulidian@ui.ac.id</strong>
         </p>
       </div>
       <div class="modal-footer">
@@ -92,50 +152,104 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-	<script>
 
+
+	<script>
+		
 		$(function(){
 			var map = L.map('map', {zoomControl: false});
 			var markerGroup= L.layerGroup ();
 			markerGroup.addTo(map);
-			var latlng = L.latLng(-1.34, 119.399, 5);
+			var latlng = L.latLng(-3.328499,114.589203);
 			map.setView (latlng, 4, {animate: true});
 			var control = L.control.zoom({position: "bottomleft"}) 
 			control.addTo(map);
-
+			 
 			$("#search-button").click(function(e){
 				e.preventDefault();
 				$("#search-button") .prop( "disabled", true);
-				$("#error-dialog") .css("display", "none");
-				var url="http://beta.geocoding.cloudmade.com/v3/8ee2a50541944fb9bcedded5165f09d9/api/geo.location.search.2?format=json&source=OSM&enc=UTF-8&limit=10&locale=id&q="+ $("#search-text").val();
+				$("#map-spinner").fadeIn();
+				var url="http://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&accept-language=id-ID&q="+ $("#search-text").val();
 				$.ajax({
 					url: url,
 					dataType: "json"
 				}).error(function(data) {
-					$("#error-dialog") .css("display", "block");
+					$("#map-spinner").fadeOut();
+					toastr["warning"]("Mohon periksa koneksi Anda", "Galat")
+					toastr.options = {
+					"closeButton": false,
+					"debug": true,
+					"newestOnTop": false,
+					"progressBar": false,
+					"positionClass": "toast-top-right",
+					"preventDuplicates": false,
+					"onclick": null,
+					"showDuration": "300",
+					"hideDuration": "1000",
+					"timeOut": "5000",
+					"extendedTimeOut": "1000",
+					"showEasing": "swing",
+					"hideEasing": "linear",
+					"showMethod": "fadeIn",
+					"hideMethod": "fadeOut"
+					}
 					$("#search-button") .prop( "disabled", false);
 				}).done(function(data) {
+					$("#map-spinner").fadeOut();
 					$("#search-button") .prop( "disabled", false);
 					console.log (data);
-					if (data && data.places && data.places.length > 0) {
-						var position= data.places[0].position;
-						console.log (position)
+					if (data && data.length > 0) {
+						toastr["success"]("Lokasi ditemukan!")
+						toastr.options = {
+						"closeButton": false,
+						"debug": false,
+						"newestOnTop": false,
+						"progressBar": false,
+						"positionClass": "toast-top-right",
+						"preventDuplicates": false,
+						"onclick": null,
+						"showDuration": "500",
+						"hideDuration": "1000",
+						"timeOut": "5000",
+						"extendedTimeOut": "1000",
+						"showEasing": "swing",
+						"hideEasing": "linear",
+						"showMethod": "fadeIn",
+						"hideMethod": "fadeOut"
+						}
+						var position= data[0];
+						console.log(position)
 						var latlng = L.latLng(position.lat, position.lon);
-						map.setView (latlng, 12, {animate: true});
+						map.setView (latlng, 16, {animate: true});
 						markerGroup.clearLayers();
 						var marker = L.popup({autoPan: true});
 						marker.setLatLng(latlng);
-						var content = data.places[0].street||"";
-						content+="<br>"+data.places[0].city;
-						content+="<br>"+data.places[0].country;
+						var content = data[0].display_name||"";
 						marker.setContent(content);
 						marker.openOn(map);
-					} 
+					} else {
+						toastr["warning"]("Lokasi tidak ditemukan", "Galat")
+						toastr.options = {
+						"closeButton": false,
+						"debug": false,
+						"newestOnTop": false,
+						"progressBar": false,
+						"positionClass": "toast-top-right",
+						"preventDuplicates": false,
+						"onclick": null,
+						"showDuration": "300",
+						"hideDuration": "1000",
+						"timeOut": "5000",
+						"extendedTimeOut": "1000",
+						"showEasing": "swing",
+						"hideEasing": "linear",
+						"showMethod": "fadeIn",
+						"hideMethod": "fadeOut"
+						}
+					} 			
 				});
 			});
-
-
-		//L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+		
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 			zoom: 5,
 			maxZoom: 18,
@@ -159,7 +273,7 @@
 		map.on('locationerror', onLocationError);
 
 		//map.locate({setView: true, zoom: 10, maxZoom: 16});
-
+		
 		});
 	</script>
 </body>
