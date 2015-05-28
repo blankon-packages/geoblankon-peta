@@ -1,3 +1,10 @@
+geoblankon-peta (0.5) tambora; urgency=low
+
+  * update bootstrap to 3.3.4  [cho2MLHC]
+  * change tile layer to data.blankon.id [cho2MLHC]
+
+ -- Mahyuddin <yudi.al@gmail.com>  Thu, 28 May 2015 21:56:43 +0700
+
 geoblankon-peta (0.4) tambora; urgency=low
 
   * New upstream changes:
