@@ -1,3 +1,9 @@
+geoblankon-peta (0.6) tambora; urgency=medium
+
+  * Change http to https 
+
+ -- Mahyuddin <yudi.al@gmail.com>  Fri, 29 May 2015 11:17:15 +0700
+
 geoblankon-peta (0.5) tambora; urgency=low
 
   * update bootstrap to 3.3.4  [cho2MLHC]
