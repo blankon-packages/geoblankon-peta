@@ -1,3 +1,9 @@
+geoblankon-peta (0.7) tambora; urgency=medium
+
+  * change zoom default
+
+ -- Mijortsa <azis.astrojim@surabaya.di.blankon.in>  Fri, 12 Jun 2015 13:13:36 +0700
+
 geoblankon-peta (0.6) tambora; urgency=medium
 
   * Change http to https 
