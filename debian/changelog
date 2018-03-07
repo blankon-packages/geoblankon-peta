@@ -1,3 +1,9 @@
+geoblankon-peta (0.8) uluwatu; urgency=medium
+
+  * Change categories to Education
+
+ -- antosamalona <ansamsoftdev@gmail.com>  Wed, 07 Mar 2018 16:15:38 +0800
+
 geoblankon-peta (0.7) tambora; urgency=medium
 
   * change zoom default

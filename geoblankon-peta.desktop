@@ -5,6 +5,5 @@ Exec=maleo /usr/lib/geoblankon-peta
 Icon=geoblankon-peta
 Terminal=false
 Type=Application
-Categories=Peta;
+Categories=Education;
 StartupNotify=true
-
